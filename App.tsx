@@ -1,6 +1,5 @@
-import { Input } from "@mui/material";
-import { StyleSheet, TextInput, View } from "react-native";
-import UserRegistration from "./pages/login";
+import { StyleSheet, View } from "react-native";
+import UserRegistration from "./pages/userRegistration";
 
 export default function App() {
   let x = 1;

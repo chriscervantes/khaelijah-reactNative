@@ -1,4 +1,3 @@
-import { Container } from "@mui/material";
 import { useState } from "react";
 import {
   StyleSheet,
@@ -10,7 +9,7 @@ import {
   TextInput,
 } from "react-native";
 
-const baseUrl = "http://localhost:5235/";
+const baseUrl = process.env.baseUrl;
 
 export default function UserRegistration() {
   const [accountName, setAccountName] = useState("");
@@ -47,7 +46,7 @@ export default function UserRegistration() {
         placeholder="Mobile"
         onChangeText={(text: string) => setMobile(text)}
       ></TextInput>
-      <Button title="Press me" onPress={ButtonSubmit} />
+      <Button title="Submit" onPress={ButtonSubmit} />
     </>
   );
 }
