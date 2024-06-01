@@ -7,11 +7,10 @@ import {
   Text,
   Alert,
   TextInput,
+  ActivityIndicator,
 } from "react-native";
 
-const baseUrl = process.env.baseUrl;
-
-export default function UserRegistration() {
+export default function UserRegistration({ navigation }: any) {
   const [accountName, setAccountName] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -21,7 +20,8 @@ export default function UserRegistration() {
     alert(
       `I will save this ${accountName} | ${firstName} | ${lastName} |  ${mobile}}`
     );
-    createUser({ accountName, firstName, lastName, mobile });
+
+    createUser({ accountName, firstName, lastName, mobile, navigation });
   }
 
   return (
@@ -46,6 +46,8 @@ export default function UserRegistration() {
         placeholder="Mobile"
         onChangeText={(text: string) => setMobile(text)}
       ></TextInput>
+
+      <Text style={styles.divider} />
       <Button title="Submit" onPress={ButtonSubmit} />
     </>
   );
@@ -55,19 +57,24 @@ type UserRegistrationPayload = {
   accountName: string;
   firstName: string;
   lastName: string;
+  birthDate: string;
   mobile: string;
+  navigation?: any;
 };
+
+enum HttpMethod {
+  Post = "POST",
+  Get = "GET",
+}
 
 async function createUser({
   accountName,
   firstName,
   lastName,
   mobile,
+  navigation,
 }: UserRegistrationPayload) {
-  enum HttpMethod {
-    Post = "POST",
-    Get = "GET",
-  }
+  const baseUrl = process.env.API_BASE_URL;
 
   // setRandom(Math.random());
   const bodyRequest = {
@@ -77,16 +84,30 @@ async function createUser({
     mobile: mobile,
   };
 
-  const response = await fetch(`${baseUrl}api/consumer`, {
-    method: HttpMethod.Post,
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(bodyRequest),
-  });
+  alert(baseUrl);
+  try {
+    const response = await fetch(`http://localhost:5235/api/consumer`, {
+      method: HttpMethod.Post,
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(bodyRequest),
+    });
+    const responsJson = await response.json();
+    const transformJson: UserRegistrationPayload = JSON.parse(
+      JSON.stringify(responsJson)
+    );
+    alert(`user successfully created ${JSON.stringify(responsJson, null, 3)}`);
 
-  if (response.status === 200) {
+    navigation.navigate("PersonalDetails", {
+      accountName: transformJson.accountName,
+      firstName: transformJson.firstName,
+      lastName: transformJson.lastName,
+      birthDate: transformJson.birthDate,
+    });
+  } catch (error) {
+    alert(`error something ${error}`);
   }
 }
 
@@ -95,5 +116,14 @@ const styles = StyleSheet.create({
     height: 40,
     marginBottom: 10,
     backgroundColor: "#fff",
+    padding: 10,
+  },
+  divider: {
+    color: "white",
+    textAlign: "center",
+    paddingVertical: 5,
+    marginBottom: 10,
+    width: "80%",
+    margin: 20,
   },
 });
