@@ -57,7 +57,7 @@ type UserRegistrationPayload = {
   accountName: string;
   firstName: string;
   lastName: string;
-  birthDate: string;
+  birthDate?: string;
   mobile: string;
   navigation?: any;
 };
