@@ -9,6 +9,7 @@ import {
   TextInput,
   ActivityIndicator,
 } from "react-native";
+import { HttpMethod } from "../types";
 
 export default function UserRegistration({ navigation }: any) {
   const [accountName, setAccountName] = useState("");
@@ -61,11 +62,6 @@ type UserRegistrationPayload = {
   mobile: string;
   navigation?: any;
 };
-
-enum HttpMethod {
-  Post = "POST",
-  Get = "GET",
-}
 
 async function createUser({
   accountName,

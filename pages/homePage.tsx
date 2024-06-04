@@ -17,6 +17,10 @@ export function HomePage({ navigation }: any) {
         title="Register User"
         onPress={() => navigation.navigate("UserRegistration")}
       />
+      <Button
+        title="Show All Users"
+        onPress={() => navigation.navigate("ShowAllUsers")}
+      />
     </>
   );
 }

@@ -4,6 +4,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { HomePage } from "./pages/homePage";
 import { PersonalDetail } from "./pages/personalDetail";
+import { ShowAllUsers } from "./pages/showAllUsers";
 
 const Stack = createNativeStackNavigator();
 
@@ -21,6 +22,7 @@ export default function App() {
         />
         <Stack.Screen name="UserRegistration" component={UserRegistration} />
         <Stack.Screen name="PersonalDetails" component={PersonalDetail} />
+        <Stack.Screen name="ShowAllUsers" component={ShowAllUsers} />
       </Stack.Navigator>
     </NavigationContainer>
   );
